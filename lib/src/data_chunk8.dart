@@ -14,9 +14,6 @@ class DataChunk8 implements DataChunk {
 
   final String _sGroupId = "data";
 
-  int _dwChunkSize;
-  Uint8List _data;
-
   // nb. Stored as unsigned bytes in the rage 0 to 255
   static const int min = 0;
   static const int max = 255;
@@ -44,24 +41,34 @@ class DataChunk8 implements DataChunk {
     for (int i = 0; i < 4; i++)
       yield byteData.getUint8(i);
 
-    // Todo: Extract Factory+Strategy pattern
-    GeneratorFunction generator = new SinGenerator();
+    // Determine when one note ends and the next begins
+    // Number of samples per note given by sampleRate * note duration
+    // compare against step count to select the correct note
+    int noteNumber = 0;
+    int incrementNoteOnSample = (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
 
-    // Todo: something wrong in here. Calling toDouble on a null value
-    // Ensure bytes returned are equal to the expected length
     int sampleMax = totalSamples;
-    double theta = notes[0].frequency * (2 * pi) / format.sampleRate;
     var amplify = (max + 1) / 2;
     for (int step = 0; step < sampleMax; step++) {
+
+      if (incrementNoteOnSample == step) {
+        noteNumber += 1;
+        incrementNoteOnSample += (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
+      }
+
+      double theta = notes[noteNumber].frequency * (2 * pi) / format.sampleRate;
+      GeneratorFunction generator = GeneratorFunction.create(notes[noteNumber].waveform);
+
       var y = generator.generate(theta * step);
-      double volume = (amplify * notes[0].volume);
+      double volume = (amplify * notes[noteNumber].volume);
       double sample = (volume * y) + volume;
       int intSampleVal = sample.toInt();
       int sampleByte = clamp(intSampleVal);
       yield sampleByte;
+
     }
 
-    // Todo: Caveat - if the number of bytes is not word-aligned, ie. number of bytes is odd, we need to pad with additional zero bytes.
+    // If the number of bytes is not word-aligned, ie. number of bytes is odd, we need to pad with additional zero bytes.
     // These zero bytes should not appear in the data chunk length header
     // but probably do get included for the length bytes in the file header
     if (length % 2 != 0)
@@ -82,7 +89,6 @@ class DataChunk8 implements DataChunk {
   String get sGroupId => _sGroupId;
 
   @override
-  // TODO: implement bytesPadding
   int get bytesPadding => length % 2 == 0 ? 0 : 1;
 }
 

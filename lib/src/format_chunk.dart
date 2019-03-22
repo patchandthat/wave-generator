@@ -22,12 +22,12 @@ class FormatChunk implements Chunk {
       case BitDepth.Depth8bit:
         _wBitsPerSample = 8;
         break;
-      case BitDepth.Depth16bit:
-        _wBitsPerSample = 16;
-        break;
-      case BitDepth.Depth32bit:
-        _wBitsPerSample = 32;
-        break;
+//      case BitDepth.Depth16bit:
+//        _wBitsPerSample = 16;
+//        break;
+//      case BitDepth.Depth32bit:
+//        _wBitsPerSample = 32;
+//        break;
     }
 
     _wBlockAlign = _wChannels * (_wBitsPerSample ~/ BITS_PER_BYTE);

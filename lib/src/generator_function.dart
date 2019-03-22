@@ -1,7 +1,22 @@
 import 'dart:math';
 
+import 'package:wave_generator/note.dart';
+
 abstract class GeneratorFunction {
  double generate(double theta);
+
+ static GeneratorFunction create(Waveform type) {
+   switch(type) {
+     case Waveform.Sine:
+       return SinGenerator();
+     case Waveform.Triangle:
+       return TriangleGenerator();
+     case Waveform.Square:
+       return SquareGenerator();
+   }
+
+   throw ArgumentError("Unknown waveform value");
+ }
 }
 
 class SinGenerator implements GeneratorFunction {
@@ -14,23 +29,13 @@ class SinGenerator implements GeneratorFunction {
 class SquareGenerator implements GeneratorFunction {
   @override
   double generate(double theta) {
-    // TODO: implement generate
-    return null;
+    return sin(theta) > 0 ? 1.0 : -1.0;
   }
 }
 
 class TriangleGenerator implements GeneratorFunction {
   @override
   double generate(double theta) {
-    // TODO: implement generate
-    return null;
-  }
-}
-
-class SawtoothGenerator implements GeneratorFunction {
-  @override
-  double generate(double theta) {
-    // TODO: implement generate
-    return null;
+    return theta % (2 * pi);
   }
 }

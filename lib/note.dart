@@ -1,5 +1,9 @@
 
-import 'package:wave_generator/waveform.dart';
+enum Waveform {
+  Sine,
+  Square,
+  Triangle,
+}
 
 class Note {
  final double frequency;

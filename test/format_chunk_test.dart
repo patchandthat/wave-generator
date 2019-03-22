@@ -169,7 +169,7 @@ void main() {
     
     test('byte rate should be 4 byte little endian equal to sample rate * channels * bytes per sample', () async {
 
-      var sut = CreateSut(sampleRate: 44100, channels: 2, depth: BitDepth.Depth16bit);
+      var sut = CreateSut(sampleRate: 44100, channels: 2, depth: BitDepth.Depth8bit); //BitDepth.Depth16bit
 
       int expectedValue = (44100 * 2 * (16/8)).toInt();
 
@@ -227,7 +227,7 @@ void main() {
 
     test('bits per sample should be set correctly', () async {
 
-      var sut = CreateSut(sampleRate: 44100, channels: 2, depth: BitDepth.Depth16bit);
+      var sut = CreateSut(sampleRate: 44100, channels: 2, depth: BitDepth.Depth8bit); //BitDepth.Depth16bit
 
       int expectedValue = 16;
 
@@ -256,7 +256,7 @@ void main() {
   });
 }
 
-FormatChunk CreateSut({int channels = 1, int sampleRate = 44100, BitDepth depth = BitDepth.Depth16bit})
+FormatChunk CreateSut({int channels = 1, int sampleRate = 44100, BitDepth depth = BitDepth.Depth8bit}) //BitDepth.Depth16bit
 {
   return FormatChunk(channels, sampleRate, depth);
 }

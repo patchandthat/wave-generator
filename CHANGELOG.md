@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.1.0] - Initial open source version
 
-* TODO: Describe initial release.
+* Generate 8 bit audio
+* Sin / Square / Triangle waves

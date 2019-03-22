@@ -13,11 +13,17 @@ import 'package:wave_generator/wave_generator.dart';
 
 () async {
 
-    var generator = WaveGenerator(/* sample rate */ 44100, BitDepth.Depth8bit);
+    var generator = WaveGenerator(
+        /* sample rate */ 44100,
+        BitDepth.Depth8bit);
 
-    var note = Note(/* frequency */ 220, /* msDuration */ 3000, /* waveform */ Waveform.Triangle, /* volume */ 0.5);
+    var note = Note(
+        /* frequency */ 220,
+        /* msDuration */ 3000,
+        /* waveform */ Waveform.Triangle,
+        /* volume */ 0.5);
 
-    var file = new File('test_out.wav');
+    var file = new File('output.wav');
 
     List<int> bytes = List<int>();
     await for (int byte in generator.generate(note)) {
@@ -28,12 +34,12 @@ import 'package:wave_generator/wave_generator.dart';
   });
 ```
 
-Or string together a sequence of tones
+Or string together a sequence of Notes
 
 ``` dart
 
  await for (int byte in generator.generateSequence([note1, note2, note3 /* etc */])) {
-   bytes.add(byte);
+   // ...
  }
 
 ```

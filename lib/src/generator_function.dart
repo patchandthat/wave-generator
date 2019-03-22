@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:wave_generator/note.dart';
+import 'package:wave_generator/wave_generator.dart';
 
 abstract class GeneratorFunction {
  double generate(double theta);

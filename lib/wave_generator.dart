@@ -2,7 +2,6 @@ library wave_generator;
 
 import 'dart:typed_data';
 
-import 'package:wave_generator/note.dart';
 import 'package:wave_generator/src/chunk.dart';
 import 'package:wave_generator/src/data_chunk8.dart';
 import 'package:wave_generator/src/format_chunk.dart';
@@ -12,6 +11,36 @@ enum BitDepth {
   Depth8bit,
 //  Depth16bit,
 //  Depth32bit
+}
+
+enum Waveform {
+  Sine,
+  Square,
+  Triangle,
+}
+
+class Note {
+  final double frequency;
+  final int msDuration;
+  final Waveform waveform;
+  final double volume;
+
+  Note(this.frequency, this.msDuration, this.waveform, this.volume){
+    if (volume < 0.0 || volume > 1.0) throw ArgumentError("Volume should be between 0.0 and 1.0");
+    if (frequency < 0.0) throw ArgumentError("Frequency cannot be less than zero");
+    if (msDuration < 0.0) throw ArgumentError("Duration cannot be less than zero");
+  }
+
+  factory Note.silent(int duration) {
+    return Note(1.0, duration, Waveform.Sine, 0.0);
+  }
+
+  factory Note.a4(int duration, double volume) {
+    return Note(440.0, duration, Waveform.Sine, volume);
+  }
+
+// Etc
+// http://pages.mtu.edu/~suits/notefreqs.html
 }
 
 class WaveGenerator

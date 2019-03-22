@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wave_generator/note.dart';
 
 import 'package:wave_generator/wave_generator.dart';
 

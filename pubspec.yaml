@@ -7,13 +7,7 @@ homepage: https://github.com/patchandthat/wave-generator
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
-dependencies:
-  flutter:
-    sdk: flutter
-
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-flutter:
+  pedantic: ^1.8.0
+  test: ^1.6.0
 

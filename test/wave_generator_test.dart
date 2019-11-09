@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 import 'package:wave_generator/wave_generator.dart';
 
 void main() {
   test('single-tone', () async {
-
     var generator = WaveGenerator(/* sample rate */ 44100, BitDepth.Depth8bit);
 
-    var note = Note(/* frequency */ 220, /* msDuration */ 3000, /* waveform */ Waveform.Triangle, /* volume */ 0.5);
+    var note = Note(/* frequency */ 220, /* msDuration */ 3000,
+        /* waveform */ Waveform.Triangle, /* volume */ 0.5);
 
     var file = new File('test_out.wav');
 
@@ -21,7 +21,6 @@ void main() {
   });
 
   test('multi-tones', () async {
-
     var generator = WaveGenerator(44100, BitDepth.Depth8bit);
 
     int baseTime = 100;

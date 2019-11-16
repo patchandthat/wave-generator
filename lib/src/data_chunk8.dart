@@ -5,10 +5,10 @@ import 'package:wave_generator/src/byte_helpers.dart';
 import 'package:wave_generator/src/chunk.dart';
 import 'package:wave_generator/src/format_chunk.dart';
 import 'package:wave_generator/src/generator_function.dart';
-import 'package:wave_generator/wave_generator.dart';
+
+import '../wave_generator.dart';
 
 class DataChunk8 implements DataChunk {
-
   final FormatChunk format;
   final List<Note> notes;
 
@@ -18,8 +18,7 @@ class DataChunk8 implements DataChunk {
   static const int min = 0;
   static const int max = 255;
 
-  int clamp(int byte)
-  {
+  int clamp(int byte) {
     return byte.clamp(min, max);
   }
 
@@ -27,37 +26,36 @@ class DataChunk8 implements DataChunk {
 
   @override
   Stream<int> bytes() async* {
-
     // sGroupId
     var groupIdBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = groupIdBytes.buffer.asByteData();
 
-    for (int i = 0; i < 4; i++)
-      yield bytes.getUint8(i);
+    for (int i = 0; i < 4; i++) yield bytes.getUint8(i);
 
     // length
     var byteData = ByteData(4);
     byteData.setUint32(0, length, Endian.little);
-    for (int i = 0; i < 4; i++)
-      yield byteData.getUint8(i);
+    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
 
     // Determine when one note ends and the next begins
     // Number of samples per note given by sampleRate * note duration
     // compare against step count to select the correct note
     int noteNumber = 0;
-    int incrementNoteOnSample = (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
+    int incrementNoteOnSample =
+        (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
 
     int sampleMax = totalSamples;
     var amplify = (max + 1) / 2;
     for (int step = 0; step < sampleMax; step++) {
-
       if (incrementNoteOnSample == step) {
         noteNumber += 1;
-        incrementNoteOnSample += (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
+        incrementNoteOnSample +=
+            (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
       }
 
       double theta = notes[noteNumber].frequency * (2 * pi) / format.sampleRate;
-      GeneratorFunction generator = GeneratorFunction.create(notes[noteNumber].waveform);
+      GeneratorFunction generator =
+          GeneratorFunction.create(notes[noteNumber].waveform);
 
       var y = generator.generate(theta * step);
       double volume = (amplify * notes[noteNumber].volume);
@@ -65,14 +63,12 @@ class DataChunk8 implements DataChunk {
       int intSampleVal = sample.toInt();
       int sampleByte = clamp(intSampleVal);
       yield sampleByte;
-
     }
 
     // If the number of bytes is not word-aligned, ie. number of bytes is odd, we need to pad with additional zero bytes.
     // These zero bytes should not appear in the data chunk length header
     // but probably do get included for the length bytes in the file header
-    if (length % 2 != 0)
-      yield 0x00;
+    if (length % 2 != 0) yield 0x00;
   }
 
   @override
@@ -81,7 +77,8 @@ class DataChunk8 implements DataChunk {
   }
 
   int get totalSamples {
-    double secondsDuration = (notes.map((note) => note.msDuration).reduce((a, b) => a+b) / 1000);
+    double secondsDuration =
+        (notes.map((note) => note.msDuration).reduce((a, b) => a + b) / 1000);
     return (format.sampleRate * secondsDuration).toInt();
   }
 
@@ -91,4 +88,3 @@ class DataChunk8 implements DataChunk {
   @override
   int get bytesPadding => length % 2 == 0 ? 0 : 1;
 }
-

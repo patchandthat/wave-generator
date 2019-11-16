@@ -1,22 +1,22 @@
 import 'dart:math';
 
-import 'package:wave_generator/wave_generator.dart';
+import '../wave_generator.dart';
 
 abstract class GeneratorFunction {
- double generate(double theta);
+  double generate(double theta);
 
- static GeneratorFunction create(Waveform type) {
-   switch(type) {
-     case Waveform.Sine:
-       return SinGenerator();
-     case Waveform.Triangle:
-       return TriangleGenerator();
-     case Waveform.Square:
-       return SquareGenerator();
-   }
+  static GeneratorFunction create(Waveform type) {
+    switch (type) {
+      case Waveform.Sine:
+        return SinGenerator();
+      case Waveform.Triangle:
+        return TriangleGenerator();
+      case Waveform.Square:
+        return SquareGenerator();
+    }
 
-   throw ArgumentError("Unknown waveform value");
- }
+    throw ArgumentError("Unknown waveform value");
+  }
 }
 
 class SinGenerator implements GeneratorFunction {

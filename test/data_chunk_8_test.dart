@@ -30,7 +30,7 @@ void main() {
           if (currentByte == expectedByte[0]) {
             expect(byte, expectedByte[1],
                 reason:
-                    'Byte at index ${currentByte} incorrect. ${byte} instead of ${expectedByte[1]}');
+                    'Byte at index $currentByte incorrect. $byte instead of ${expectedByte[1]}');
           }
         }
 
@@ -56,7 +56,7 @@ void main() {
               channels *
               bytesPerSample;
 
-      var format = FormatChunk(channels, sampleRate, BitDepth.Depth8bit);
+      var format = FormatChunk(channels, sampleRate, BitDepth.depth8Bit);
       var notes = [Note.a4(millisecondsDuration, 1)];
       var sut = createSut(format: format, notes: notes);
 
@@ -80,7 +80,7 @@ void main() {
           if (currentByte == expectedByte[0]) {
             expect(byte, expectedByte[1],
                 reason:
-                    'Byte at index ${currentByte} incorrect. ${byte} instead of ${expectedByte[1]}');
+                    'Byte at index $currentByte incorrect. $byte instead of $expectedByte[1]');
           }
         }
 
@@ -102,7 +102,7 @@ DataChunk createSut({
   List<Note>? notes,
 }) {
   return DataChunk8(
-    format ??= FormatChunk(1, 44100, BitDepth.Depth8bit),
+    format ??= FormatChunk(1, 44100, BitDepth.depth8Bit),
     notes ??= [Note.a4(100, 1)],
   );
 }

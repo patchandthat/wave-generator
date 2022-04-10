@@ -7,21 +7,20 @@ import 'src/wave_header.dart';
 
 /// Bit-depth per sample.
 enum BitDepth {
-  Depth8bit,
+  depth8Bit,
 //  Depth16bit,
 //  Depth32bit
 }
 
 /// Waveform for a tone.
 enum Waveform {
-  Sine,
-  Square,
-  Triangle,
+  sine,
+  square,
+  triangle,
 }
 
 /// Represents a single tone.
 class Note {
-
   /// Frequency in Hz.
   final double frequency;
 
@@ -34,18 +33,24 @@ class Note {
   /// Volume in the range 0.0 - 1.0.
   final double volume;
 
-  Note(this.frequency, this.msDuration, this.waveform, this.volume){
-    if (volume < 0.0 || volume > 1.0) throw ArgumentError("Volume should be between 0.0 and 1.0");
-    if (frequency < 0.0) throw ArgumentError("Frequency cannot be less than zero");
-    if (msDuration < 0.0) throw ArgumentError("Duration cannot be less than zero");
+  Note(this.frequency, this.msDuration, this.waveform, this.volume) {
+    if (volume < 0.0 || volume > 1.0) {
+      throw ArgumentError('Volume should be between 0.0 and 1.0');
+    }
+    if (frequency < 0.0) {
+      throw ArgumentError('Frequency cannot be less than zero');
+    }
+    if (msDuration < 0.0) {
+      throw ArgumentError('Duration cannot be less than zero');
+    }
   }
 
   factory Note.silent(int duration) {
-    return Note(1.0, duration, Waveform.Sine, 0.0);
+    return Note(1.0, duration, Waveform.sine, 0.0);
   }
 
   factory Note.a4(int duration, double volume) {
-    return Note(440.0, duration, Waveform.Sine, volume);
+    return Note(440.0, duration, Waveform.sine, volume);
   }
 
 // Etc, do more
@@ -53,8 +58,7 @@ class Note {
 }
 
 /// Generates simple waveforms as uncompressed PCM audio data.
-class WaveGenerator
-{
+class WaveGenerator {
   /// Samples generated per second.
   final int sampleRate;
 
@@ -62,17 +66,16 @@ class WaveGenerator
   final BitDepth bitDepth;
 
   factory WaveGenerator.simple() {
-    return WaveGenerator(44100, BitDepth.Depth8bit);
+    return WaveGenerator(44100, BitDepth.depth8Bit);
   }
 
   WaveGenerator(this.sampleRate, this.bitDepth);
 
   /// Generate a byte stream equivalent to a wav file of the Note argument
   Stream<int> generate(Note note) async* {
-
     var formatHeader = FormatChunk(1, sampleRate, bitDepth);
 
-    var dataChunk = _getDataChunk(formatHeader, [note] );
+    var dataChunk = _getDataChunk(formatHeader, [note]);
 
     var fileHeader = WaveHeader(formatHeader, dataChunk);
 
@@ -91,9 +94,8 @@ class WaveGenerator
 
   /// Generate a byte stream equivalent to a wav file of the Note list argument, played sequentially
   Stream<int> generateSequence(List<Note> notes) async* {
-
     var formatHeader = FormatChunk(1, sampleRate, bitDepth);
-    var dataChunk = _getDataChunk(formatHeader, notes );
+    var dataChunk = _getDataChunk(formatHeader, notes);
     var fileHeader = WaveHeader(formatHeader, dataChunk);
 
     await for (int data in fileHeader.bytes()) {
@@ -110,11 +112,11 @@ class WaveGenerator
   }
 
   DataChunk _getDataChunk(FormatChunk format, List<Note> notes) {
-    switch (this.bitDepth) {
-      case BitDepth.Depth8bit:
+    switch (bitDepth) {
+      case BitDepth.depth8Bit:
         return DataChunk8(format, notes);
       default:
-        throw UnimplementedError("todo");
+        throw UnimplementedError();
     }
   }
 }

@@ -6,8 +6,8 @@ import 'format_chunk.dart';
 
 class WaveHeader implements Chunk {
 
-  String _sGroupId = "RIFF";
-  String _sRifType = "WAVE";
+  final String _sGroupId = 'RIFF';
+  final String _sRifType = 'WAVE';
 
   final FormatChunk _formatChunk;
   final DataChunk _dataChunk;
@@ -25,18 +25,20 @@ class WaveHeader implements Chunk {
 
     var strBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = strBytes.buffer.asByteData();
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++) {
       yield bytes.getUint8(i);
+    }
 
     var byteData = ByteData(4);
     byteData.setUint32(0, length, Endian.little);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++) {
       yield byteData.getUint8(i);
+    }
 
     strBytes = ByteHelpers.toBytes(_sRifType);
     bytes = strBytes.buffer.asByteData();
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++) {
       yield bytes.getUint8(i);
-
+    }
   }
 }

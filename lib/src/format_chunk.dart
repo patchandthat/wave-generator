@@ -6,9 +6,9 @@ import 'chunk.dart';
 import '../wave_generator.dart';
 
 class FormatChunk implements Chunk {
-  final int BITS_PER_BYTE = 8;
+  final int bitsPerByte = 8;
 
-  final String _sGroupId = "fmt ";
+  final String _sGroupId = 'fmt ';
   final int _dwChunkSize = 16;
   final int _wFormatTag = 1;
   final int _wChannels;
@@ -23,7 +23,7 @@ class FormatChunk implements Chunk {
     BitDepth bitsPerSample,
   ) {
     switch (bitsPerSample) {
-      case BitDepth.Depth8bit:
+      case BitDepth.depth8Bit:
         _wBitsPerSample = 8;
         break;
 //      case BitDepth.Depth16bit:
@@ -34,7 +34,7 @@ class FormatChunk implements Chunk {
 //        break;
     }
 
-    _wBlockAlign = _wChannels * (_wBitsPerSample ~/ BITS_PER_BYTE);
+    _wBlockAlign = _wChannels * (_wBitsPerSample ~/ bitsPerByte);
     _dwAverageBytesPerSecond = _wBlockAlign * _dwSamplesPerSecond;
   }
 
@@ -58,41 +58,57 @@ class FormatChunk implements Chunk {
     var groupIdBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = groupIdBytes.buffer.asByteData();
 
-    for (int i = 0; i < 4; i++) yield bytes.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield bytes.getUint8(i);
+    }
 
     // chunkLength
     var byteData = ByteData(4);
     byteData.setUint32(0, length, Endian.little);
-    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Audio format
     byteData = ByteData(2);
     byteData.setUint16(0, _wFormatTag, Endian.little);
-    for (int i = 0; i < 2; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 2; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Num channels
     byteData = ByteData(2);
     byteData.setUint16(0, _wChannels, Endian.little);
-    for (int i = 0; i < 2; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 2; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Sample rate
     byteData = ByteData(4);
     byteData.setUint32(0, _dwSamplesPerSecond, Endian.little);
-    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Byte rate
     byteData = ByteData(4);
     byteData.setUint32(0, _dwAverageBytesPerSecond, Endian.little);
-    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Block align
     byteData = ByteData(2);
     byteData.setUint16(0, _wBlockAlign, Endian.little);
-    for (int i = 0; i < 2; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 2; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Bits per sample
     byteData = ByteData(2);
     byteData.setUint16(0, _wBitsPerSample, Endian.little);
-    for (int i = 0; i < 2; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 2; i++) {
+      yield byteData.getUint8(i);
+    }
   }
 }

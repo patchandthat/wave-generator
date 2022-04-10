@@ -1,10 +1,7 @@
-import 'dart:typed_data';
-
 import 'chunk.dart';
 
 class DataChunk32 implements DataChunk {
-
-  final String _sGroupId = "data";
+  final String _sGroupId = 'data';
   // int _dwChunkSize;
   // List<double> _data;
 

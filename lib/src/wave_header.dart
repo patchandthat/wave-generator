@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:wave_generator/src/byte_helpers.dart';
-import 'package:wave_generator/src/chunk.dart';
-import 'package:wave_generator/src/format_chunk.dart';
+import 'byte_helpers.dart';
+import 'chunk.dart';
+import 'format_chunk.dart';
 
 class WaveHeader implements Chunk {
 

@@ -1,11 +1,9 @@
 library wave_generator;
 
-import 'dart:typed_data';
-
-import 'package:wave_generator/src/chunk.dart';
-import 'package:wave_generator/src/data_chunk8.dart';
-import 'package:wave_generator/src/format_chunk.dart';
-import 'package:wave_generator/src/wave_header.dart';
+import 'src/chunk.dart';
+import 'src/data_chunk8.dart';
+import 'src/format_chunk.dart';
+import 'src/wave_header.dart';
 
 /// Bit-depth per sample.
 enum BitDepth {
@@ -73,7 +71,7 @@ class WaveGenerator
   Stream<int> generate(Note note) async* {
 
     var formatHeader = FormatChunk(1, sampleRate, bitDepth);
-    
+
     var dataChunk = _getDataChunk(formatHeader, [note] );
 
     var fileHeader = WaveHeader(formatHeader, dataChunk);

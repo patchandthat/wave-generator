@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:wave_generator/src/byte_helpers.dart';
-import 'package:wave_generator/src/chunk.dart';
+import 'byte_helpers.dart';
+import 'chunk.dart';
 
 import '../wave_generator.dart';
 
@@ -9,16 +9,19 @@ class FormatChunk implements Chunk {
   final int BITS_PER_BYTE = 8;
 
   final String _sGroupId = "fmt ";
-  int _dwChunkSize = 16;
+  final int _dwChunkSize = 16;
   final int _wFormatTag = 1;
   final int _wChannels;
   final int _dwSamplesPerSecond;
-  int _dwAverageBytesPerSecond;
-  int _wBlockAlign;
-  int _wBitsPerSample;
+  late int _dwAverageBytesPerSecond;
+  late int _wBlockAlign;
+  late int _wBitsPerSample;
 
   FormatChunk(
-      this._wChannels, this._dwSamplesPerSecond, BitDepth bitsPerSample) {
+    this._wChannels,
+    this._dwSamplesPerSecond,
+    BitDepth bitsPerSample,
+  ) {
     switch (bitsPerSample) {
       case BitDepth.Depth8bit:
         _wBitsPerSample = 8;

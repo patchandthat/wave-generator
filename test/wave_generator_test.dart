@@ -12,7 +12,7 @@ void main() {
 
     var file = new File('test_out.wav');
 
-    List<int> bytes = List<int>();
+    List<int> bytes = [];
     await for (int byte in generator.generate(note)) {
       bytes.add(byte);
     }
@@ -59,7 +59,7 @@ void main() {
 
     var file = new File('s-o-s.wav');
 
-    List<int> bytes = List<int>();
+    List<int> bytes = [];
     await for (int byte in generator.generateSequence(notes)) {
       bytes.add(byte);
     }

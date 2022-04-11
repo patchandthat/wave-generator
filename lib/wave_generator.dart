@@ -69,7 +69,7 @@ class WaveGenerator {
     return WaveGenerator(44100, BitDepth.depth8Bit);
   }
 
-  WaveGenerator(this.sampleRate, this.bitDepth);
+  const WaveGenerator(this.sampleRate, this.bitDepth);
 
   /// Generate a byte stream equivalent to a wav file of the Note argument
   Stream<int> generate(Note note) async* {

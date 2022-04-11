@@ -22,7 +22,7 @@ class DataChunk8 implements DataChunk {
     return byte.clamp(min, max);
   }
 
-  DataChunk8(this.format, this.notes);
+  const DataChunk8(this.format, this.notes);
 
   @override
   Stream<int> bytes() async* {
@@ -76,9 +76,7 @@ class DataChunk8 implements DataChunk {
   }
 
   @override
-  int get length {
-    return totalSamples * format.blockAlign;
-  }
+  int get length => totalSamples * format.blockAlign;
 
   int get totalSamples {
     double secondsDuration =

@@ -5,24 +5,25 @@ import 'chunk.dart';
 import 'format_chunk.dart';
 
 class WaveHeader implements Chunk {
-
   final String _sGroupId = 'RIFF';
   final String _sRifType = 'WAVE';
 
-  final FormatChunk _formatChunk;
-  final DataChunk _dataChunk;
+  final FormatChunk formatChunk;
+  final DataChunk dataChunk;
 
-  WaveHeader(this._formatChunk, this._dataChunk);
+  const WaveHeader(this.formatChunk, this.dataChunk);
 
   @override
-  int get length => 4 + (8 + _formatChunk.length) + (8 + _dataChunk.length + _dataChunk.bytesPadding);
+  int get length =>
+      4 +
+      (8 + formatChunk.length) +
+      (8 + dataChunk.length + dataChunk.bytesPadding);
 
   @override
   String get sGroupId => _sGroupId;
 
   @override
   Stream<int> bytes() async* {
-
     var strBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = strBytes.buffer.asByteData();
     for (int i = 0; i < 4; i++) {

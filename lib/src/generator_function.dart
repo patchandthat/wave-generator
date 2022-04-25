@@ -7,15 +7,13 @@ abstract class GeneratorFunction {
 
   static GeneratorFunction create(Waveform type) {
     switch (type) {
-      case Waveform.Sine:
+      case Waveform.sine:
         return SinGenerator();
-      case Waveform.Triangle:
+      case Waveform.triangle:
         return TriangleGenerator();
-      case Waveform.Square:
+      case Waveform.square:
         return SquareGenerator();
     }
-
-    throw ArgumentError("Unknown waveform value");
   }
 }
 

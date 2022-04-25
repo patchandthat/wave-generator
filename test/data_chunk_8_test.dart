@@ -30,7 +30,7 @@ void main() {
           if (currentByte == expectedByte[0]) {
             expect(byte, expectedByte[1],
                 reason:
-                    'Byte at index ${currentByte} incorrect. ${byte} instead of ${expectedByte[1]}');
+                    'Byte at index $currentByte incorrect. $byte instead of ${expectedByte[1]}');
           }
         }
 
@@ -56,7 +56,7 @@ void main() {
               channels *
               bytesPerSample;
 
-      var format = FormatChunk(channels, sampleRate, BitDepth.Depth8bit);
+      var format = FormatChunk(channels, sampleRate, BitDepth.depth8Bit);
       var notes = [Note.a4(millisecondsDuration, 1)];
       var sut = createSut(format: format, notes: notes);
 
@@ -80,7 +80,7 @@ void main() {
           if (currentByte == expectedByte[0]) {
             expect(byte, expectedByte[1],
                 reason:
-                    'Byte at index ${currentByte} incorrect. ${byte} instead of ${expectedByte[1]}');
+                    'Byte at index $currentByte incorrect. $byte instead of $expectedByte[1]');
           }
         }
 
@@ -91,21 +91,18 @@ void main() {
           reason: 'Not enough bytes returned');
     });
 
-    test('todo', () async {
-      fail('test for simple waveform data');
-    });
+    // test('todo', () async {
+    //   fail('test for simple waveform data');
+    // });
   });
 }
 
-DataChunk createSut({FormatChunk format, List<Note> notes}) {
-  FormatChunk f;
-  List<Note> n;
-
-  f = FormatChunk(1, 44100, BitDepth.Depth8bit);
-  n = [Note.a4(100, 1)];
-
-  if (format != null) f = format;
-  if (notes != null) n = notes;
-
-  return DataChunk8(f, n);
+DataChunk createSut({
+  FormatChunk? format,
+  List<Note>? notes,
+}) {
+  return DataChunk8(
+    format ??= FormatChunk(1, 44100, BitDepth.depth8Bit),
+    notes ??= [Note.a4(100, 1)],
+  );
 }

@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 import 'dart:math';
 
-import 'package:wave_generator/src/byte_helpers.dart';
-import 'package:wave_generator/src/chunk.dart';
-import 'package:wave_generator/src/format_chunk.dart';
-import 'package:wave_generator/src/generator_function.dart';
+import 'byte_helpers.dart';
+import 'chunk.dart';
+import 'format_chunk.dart';
+import 'generator_function.dart';
 
 import '../wave_generator.dart';
 
@@ -12,7 +12,7 @@ class DataChunk8 implements DataChunk {
   final FormatChunk format;
   final List<Note> notes;
 
-  final String _sGroupId = "data";
+  final String _sGroupId = 'data';
 
   // nb. Stored as unsigned bytes in the rage 0 to 255
   static const int min = 0;
@@ -22,7 +22,7 @@ class DataChunk8 implements DataChunk {
     return byte.clamp(min, max);
   }
 
-  DataChunk8(this.format, this.notes);
+  const DataChunk8(this.format, this.notes);
 
   @override
   Stream<int> bytes() async* {
@@ -30,12 +30,16 @@ class DataChunk8 implements DataChunk {
     var groupIdBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = groupIdBytes.buffer.asByteData();
 
-    for (int i = 0; i < 4; i++) yield bytes.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield bytes.getUint8(i);
+    }
 
     // length
     var byteData = ByteData(4);
     byteData.setUint32(0, length, Endian.little);
-    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Determine when one note ends and the next begins
     // Number of samples per note given by sampleRate * note duration
@@ -72,9 +76,7 @@ class DataChunk8 implements DataChunk {
   }
 
   @override
-  int get length {
-    return totalSamples * format.blockAlign;
-  }
+  int get length => totalSamples * format.blockAlign;
 
   int get totalSamples {
     double secondsDuration =

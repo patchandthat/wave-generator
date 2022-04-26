@@ -90,10 +90,6 @@ void main() {
       expect(currentByte, greaterThanOrEqualTo(expectMinimumBytes),
           reason: 'Not enough bytes returned');
     });
-
-    // test('todo', () async {
-    //   fail('test for simple waveform data');
-    // });
   });
 }
 

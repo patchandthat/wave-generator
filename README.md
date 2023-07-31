@@ -48,3 +48,4 @@ Or string together a sequence of Notes
 
 * Sin, Square, Triangle waves
 * 8 Bit depth
+* Null-safety

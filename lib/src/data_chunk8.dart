@@ -1,17 +1,18 @@
-import 'dart:math';
 import 'dart:typed_data';
+import 'dart:math';
+
+import 'package:wave_generator/src/byte_helpers.dart';
+import 'package:wave_generator/src/chunk.dart';
+import 'package:wave_generator/src/format_chunk.dart';
+import 'package:wave_generator/src/generator_function.dart';
 
 import '../wave_generator.dart';
-import 'byte_helpers.dart';
-import 'chunk.dart';
-import 'format_chunk.dart';
-import 'generator_function.dart';
 
 class DataChunk8 implements DataChunk {
   final FormatChunk format;
   final List<Note> notes;
 
-  final String _sGroupId = 'data';
+  final String _sGroupId = "data";
 
   // nb. Stored as unsigned bytes in the rage 0 to 255
   static const int min = 0;
@@ -21,7 +22,7 @@ class DataChunk8 implements DataChunk {
     return byte.clamp(min, max);
   }
 
-  const DataChunk8(this.format, this.notes);
+  DataChunk8(this.format, this.notes);
 
   @override
   Stream<int> bytes() async* {
@@ -29,23 +30,19 @@ class DataChunk8 implements DataChunk {
     var groupIdBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = groupIdBytes.buffer.asByteData();
 
-    for (int i = 0; i < 4; i++) {
-      yield bytes.getUint8(i);
-    }
+    for (int i = 0; i < 4; i++) yield bytes.getUint8(i);
 
     // length
     var byteData = ByteData(4);
     byteData.setUint32(0, length, Endian.little);
-    for (int i = 0; i < 4; i++) {
-      yield byteData.getUint8(i);
-    }
+    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
 
     // Determine when one note ends and the next begins
     // Number of samples per note given by sampleRate * note duration
     // compare against step count to select the correct note
     int noteNumber = 0;
     int incrementNoteOnSample =
-        (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
+        ((notes[noteNumber].msDuration * format.sampleRate) / 1000).round();
 
     int sampleMax = totalSamples;
     var amplify = (max + 1) / 2;
@@ -53,7 +50,7 @@ class DataChunk8 implements DataChunk {
       if (incrementNoteOnSample == step) {
         noteNumber += 1;
         incrementNoteOnSample +=
-            (notes[noteNumber].msDuration * format.sampleRate) ~/ 1000;
+            ((notes[noteNumber].msDuration * format.sampleRate) / 1000).round();
       }
 
       double theta = notes[noteNumber].frequency * (2 * pi) / format.sampleRate;
@@ -75,7 +72,9 @@ class DataChunk8 implements DataChunk {
   }
 
   @override
-  int get length => totalSamples * format.blockAlign;
+  int get length {
+    return totalSamples * format.blockAlign;
+  }
 
   int get totalSamples {
     double secondsDuration =

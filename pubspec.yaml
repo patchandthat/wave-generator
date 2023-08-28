@@ -1,11 +1,13 @@
 name: wave_generator
 description: A dart package to generate audio wave data on the fly
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/patchandthat/wave-generator
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=3.0.1 <4.0.0"
 
 dev_dependencies:
-  lints: ^1.0.1
-  test: ^1.20.2
+  lints: ^2.1.1
+  flutter_test:
+    sdk: flutter
+  # test: ^1.24.6

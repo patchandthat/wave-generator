@@ -1,12 +1,11 @@
-import 'dart:typed_data';
 import 'dart:math';
+import 'dart:typed_data';
 
+import '../wave_generator.dart';
 import 'byte_helpers.dart';
 import 'chunk.dart';
 import 'format_chunk.dart';
 import 'generator_function.dart';
-
-import '../wave_generator.dart';
 
 class DataChunk8 implements DataChunk {
   final FormatChunk format;

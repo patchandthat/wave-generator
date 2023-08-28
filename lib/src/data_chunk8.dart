@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:wave_generator/src/byte_helpers.dart';
 import 'package:wave_generator/src/chunk.dart';
@@ -30,12 +30,16 @@ class DataChunk8 implements DataChunk {
     var groupIdBytes = ByteHelpers.toBytes(_sGroupId);
     var bytes = groupIdBytes.buffer.asByteData();
 
-    for (int i = 0; i < 4; i++) yield bytes.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield bytes.getUint8(i);
+    }
 
     // length
     var byteData = ByteData(4);
     byteData.setUint32(0, length, Endian.little);
-    for (int i = 0; i < 4; i++) yield byteData.getUint8(i);
+    for (int i = 0; i < 4; i++) {
+      yield byteData.getUint8(i);
+    }
 
     // Determine when one note ends and the next begins
     // Number of samples per note given by sampleRate * note duration

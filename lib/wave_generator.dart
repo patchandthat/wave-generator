@@ -98,16 +98,28 @@ class WaveGenerator {
     var dataChunk = _getDataChunk(formatHeader, notes);
     var fileHeader = WaveHeader(formatHeader, dataChunk);
 
-    await for (int data in fileHeader.bytes()) {
-      yield data;
+    try {
+      await for (int data in fileHeader.bytes()) {
+        yield data;
+      }
+    } catch (e) {
+      print(e);
     }
 
-    await for (int data in formatHeader.bytes()) {
-      yield data;
+    try {
+      await for (int data in formatHeader.bytes()) {
+        yield data;
+      }
+    } catch (e) {
+      print(e);
     }
 
-    await for (int data in dataChunk.bytes()) {
-      yield data;
+    try {
+      await for (int data in dataChunk.bytes()) {
+        yield data;
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

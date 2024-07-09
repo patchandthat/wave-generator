@@ -1,4 +1,4 @@
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:wave_generator/src/format_chunk.dart';
 import 'package:wave_generator/wave_generator.dart';
 
@@ -220,7 +220,7 @@ void main() {
           if (currentByte == expectedByte[0]) {
             expect(byte, expectedByte[1],
                 reason:
-                    'Byte at index ${currentByte} incorrect. ${byte} instead of ${expectedByte[1]}');
+                    'Byte at index $currentByte incorrect. $byte instead of ${expectedByte[1]}');
           }
         }
 
@@ -289,7 +289,7 @@ void main() {
           if (currentByte == expectedByte[0]) {
             expect(byte, expectedByte[1],
                 reason:
-                    'Byte at index ${currentByte} incorrect. ${byte} instead of ${expectedByte[1]}');
+                    'Byte at index $currentByte incorrect. $byte instead of ${expectedByte[1]}');
           }
         }
 

@@ -1,8 +1,7 @@
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:wave_generator/src/chunk.dart';
 import 'package:wave_generator/src/data_chunk8.dart';
 import 'package:wave_generator/src/format_chunk.dart';
-
 import 'package:wave_generator/wave_generator.dart';
 
 void main() {
